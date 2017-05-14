@@ -45,6 +45,8 @@ import org.apache.hadoop.fs.permission.AclEntry;
 import org.apache.hadoop.fs.permission.AclUtil;
 import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.io.IOUtils;
+import org.apache.hadoop.hdfs.tools.DFSck;
+//import org.apache.hadoop.conf.Configuration;
 
 import static org.apache.hadoop.fs.CommonConfigurationKeysPublic.IO_FILE_BUFFER_SIZE_DEFAULT;
 import static org.apache.hadoop.fs.CommonConfigurationKeysPublic.IO_FILE_BUFFER_SIZE_KEY;
@@ -338,10 +340,24 @@ abstract class CommandWithDestination extends FsCommand {
     src.fs.setVerifyChecksum(verifyChecksum);
     InputStream in = null;
     try {
+        System.out.flush();
+      System.out.println("Hello World try~");
       in = src.fs.open(src.path);
       copyStreamToTarget(in, target);
       preserveAttributes(src, target, preserveRawXattrs);
     } finally {
+        System.out.flush();
+        System.out.println("~~Starting Distributed File System Check~~");
+        //Configuration conf = new Configuration();
+        //conf.set("fs.defaultFS", "hdfs://localhost:9000");
+        //DFSck dFSck = new DFSck(conf);
+        //dFSck.run("/".split(""));
+        try{
+            DFSck.main("/abcde".split(";"));
+        }catch(Exception e){
+            System.err.println("Caught IOException: " + e.getMessage());
+        }
+        System.out.println("~~Ending Distributed File System Check~~");
       IOUtils.closeStream(in);
     }
   }
@@ -402,6 +418,8 @@ abstract class CommandWithDestination extends FsCommand {
     }
     TargetFileSystem targetFs = new TargetFileSystem(target.fs);
     try {
+        System.out.flush();
+        System.out.println("Hello Copy Stream");
       PathData tempTarget = direct ? target : target.suffix("._COPYING_");
       targetFs.setWriteChecksum(writeChecksum);
       targetFs.writeStreamToFile(in, tempTarget, lazyPersist, direct);

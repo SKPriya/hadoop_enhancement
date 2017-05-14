@@ -256,6 +256,7 @@ class CopyCommands {
       getRemoteDestination(args);
       // should have a -r option
       setRecursive(true);
+        System.out.println("put hello");
     }
 
     // commands operating on local paths have no need for glob expansion
