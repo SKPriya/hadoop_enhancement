@@ -45,10 +45,10 @@ There are numerous places within the Hadoop project and ecosystem that can lever
 2. Configure the credential provider path property. The provider path property `hadoop.security.credential.provider.path` is a comma separated list of one or more credential provider URIs that is traversed while trying to resolve a credential alias.
     - This property may be configured within core-site.xml or a component specific configuration file that is merged with core-site.xml.
     - For command line interfaces, such as that for DistCp, the property can be added with a hadoop system property ("-D *property=value*") and dynamically added to the Configuration.
-3. Features or components that leverage the new [Configuration.getPassword](../../api/org/apache/hadoop/conf/Configuration.html#getPassword-java.lang.String-) method to resolve their credentials will automatically pick up support for the credential provider API.
+3. Features or components that leverage the new [Configuration.getPassword](../../api/org/apache/hadoop/conf/Configuration.md#getPassword-java.lang.String-) method to resolve their credentials will automatically pick up support for the credential provider API.
     - By using the same property names as are used for existing clear text passwords, this mechanism allows for the migration to credential providers while providing backward compatibility for clear text.
     - The entire credential provider path is interrogated before falling back to clear text passwords in config.
-4. Features or components that do not use the hadoop Configuration class for config or have other internal uses for the credential providers may choose to write to the CredentialProvider API itself. An example of its use will be included in this document but may also be found within [Configuration.getPassword](../../api/org/apache/hadoop/conf/Configuration.html#getPassword-java.lang.String-) and within the unit tests of features that have added support and need to provision credentials for the tests.
+4. Features or components that do not use the hadoop Configuration class for config or have other internal uses for the credential providers may choose to write to the CredentialProvider API itself. An example of its use will be included in this document but may also be found within [Configuration.getPassword](../../api/org/apache/hadoop/conf/Configuration.md#getPassword-java.lang.String-) and within the unit tests of features that have added support and need to provision credentials for the tests.
 
 ##### Provision Credentials
 Example: ssl.server.keystore.password
@@ -64,7 +64,7 @@ migration to the use of credential providers and fall back logic for backward co
 
 ##### Configuring the Provider Path
 Now, we need to make sure that this provisioned credential store is known at runtime by the
-[Configuration.getPassword](../../api/org/apache/hadoop/conf/Configuration.html#getPassword-java.lang.String-) method. If there is no credential provider path configuration then
+[Configuration.getPassword](../../api/org/apache/hadoop/conf/Configuration.md#getPassword-java.lang.String-) method. If there is no credential provider path configuration then
 getPassword will skip the credential provider API interrogation. So, it is important that the
 following be configured within core-site.xml or your component's equivalent.
 
@@ -86,12 +86,12 @@ A couple additional things to note about the provider path:
  user type. This provider can manage credentials stored within the Credentials
  file for a process.
 2. The path configuration accepts a comma separated path of providers or
- credential stores. The [Configuration.getPassword](../../api/org/apache/hadoop/conf/Configuration.html#getPassword-java.lang.String-) method will walk through
+ credential stores. The [Configuration.getPassword](../../api/org/apache/hadoop/conf/Configuration.md#getPassword-java.lang.String-) method will walk through
  all of the providers until it resolves the alias or exhausts the list.
  Depending on the runtime needs for credentials, we may need to configure
  a chain of providers to check.
 
-In summary, first, provision the credentials into a provider then configure the provider for use by a feature or component and it will often just be picked up through the use of the [Configuration.getPassword](../../api/org/apache/hadoop/conf/Configuration.html#getPassword-java.lang.String-) method.
+In summary, first, provision the credentials into a provider then configure the provider for use by a feature or component and it will often just be picked up through the use of the [Configuration.getPassword](../../api/org/apache/hadoop/conf/Configuration.md#getPassword-java.lang.String-) method.
 
 ##### Supported Features
 | Feature\Component | Description | Link |
@@ -116,7 +116,7 @@ In summary, first, provision the credentials into a provider then configure the 
 
 Usage: `hadoop credential <subcommand> [options]`
 
-See the command options detail in the [Commands Manual](CommandsManual.html#credential)
+See the command options detail in the [Commands Manual](CommandsManual.md#credential)
 
 Utilizing the credential command will often be for provisioning a password or secret to a particular credential store provider. In order to explicitly indicate which provider store to use the `-provider` option should be used.
 
