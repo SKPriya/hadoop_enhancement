@@ -116,7 +116,7 @@ In summary, first, provision the credentials into a provider then configure the 
 
 Usage: `hadoop credential <subcommand> [options]`
 
-See the command options detail in the [Commands Manual](CommandsManual.html#credential)
+See the command options detail in the [Commands Manual](CommandsManual.md#credential)
 
 Utilizing the credential command will often be for provisioning a password or secret to a particular credential store provider. In order to explicitly indicate which provider store to use the `-provider` option should be used.
 
